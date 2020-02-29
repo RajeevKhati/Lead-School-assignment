@@ -35,18 +35,18 @@ router.get("/students/:page", function(req, res){
                     current: page,
                     perPage: perPage,
                     pages: Math.ceil(count / perPage)
-                })
-            })
-        })
+            });
+        });
+	});
 });
 
 //New Route
-router.get("/student/new", function(req, res){
+router.get("/student/new", isLoggedIn, function(req, res){
 	res.render("students/new");
 });
 
 //Post Route
-router.post("/students", calculateAge, function(req, res){
+router.post("/students", isLoggedIn, calculateAge, function(req, res){
 	Student.create(req.body.student, function(err, newStudent){
 		if(err){
 			res.render("new");
@@ -57,7 +57,7 @@ router.post("/students", calculateAge, function(req, res){
 });
 
 //Edit Route
-router.get("/students/:id/edit", function(req, res){
+router.get("/students/:id/edit", isLoggedIn, function(req, res){
 	Student.findById(req.params.id, function(err, foundStudent){
 		if(err){
 			res.redirect("/students");
@@ -79,13 +79,13 @@ router.put("/students/:id", calculateAge, function(req, res){
 });
 
 //Delete Route
-router.delete("/students/:id", function(req, res){
+router.delete("/students/:id", isLoggedIn, function(req, res){
 	Student.findByIdAndRemove(req.params.id, function(err){
 			res.redirect("back");
 	})
 })
 
-
+//middleware
 function calculateAge(req, res, next){
 	var today = new Date();
 	var birthDay = new Date(req.body.dateOfBirth);
@@ -97,6 +97,14 @@ function calculateAge(req, res, next){
 	req.body.student.age = age.toString();
 	req.body.student.dateOfBirth = req.body.dateOfBirth;
 	next();
+}
+
+//middleware to check authentication
+function isLoggedIn(req, res, next){
+	if(req.isAuthenticated()){
+		return next();
+	};
+	res.redirect("/login");
 }
 
 module.exports = router;
