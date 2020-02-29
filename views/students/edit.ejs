@@ -1,0 +1,56 @@
+<%- include('../partials/header') -%>
+
+	<div class="col">
+		<h2>Edit Student</h2>
+		<hr>
+		<div class="container">
+		<form action="/students/<%=student._id%>?_method=PUT" method="POST">
+
+			<div class="form-group">
+				<label for="name">Full Name</label>
+				<input type="text" class="form-control" id="name" name="student[name]" value="<%=student.name%>">
+			</div>
+
+			<div class="form-group">
+				<label for="birthDate">Date of Birth</label>
+				<input class="form-control" id="birthDate" type="date" name="dateOfBirth" value="<%=student.dateOfBirth%>">
+			</div>
+
+			<label for="nameOfSchool">School</label>
+			<select class="form-control mb-3" name="student[school]" id="nameOfSchool">
+			    <option><%=student.school%></option>
+			    <option>Muljibhai</option>
+			    <option>Xavier</option>
+		    </select>
+
+		    <label for="nameOfClass">Class</label>
+		    <select class="form-control mb-3" name="student[class]" id="nameOfClass">
+			    <option value=""><%=student.class%></option>
+			    <option>5th std</option>
+			    <option>9th std</option>
+		    </select>
+
+		    <label for="divisionNumber">Division</label>
+		    <select class="form-control mb-3" name="student[division]" id="divisionNumber">
+			    <option value=""><%=student.division%></option>
+			    <option>A</option>
+			    <option>B</option>
+		    </select>
+
+		    <div>Status</div>
+		    <div class="custom-control custom-radio custom-control-inline">
+			  <input class="custom-control-input" type="radio" id="active" name="student[status]" value="Active"
+			         checked>
+			  <label class="custom-control-label" for="active">Active</label>
+			</div>
+
+			<div class="custom-control custom-radio custom-control-inline">
+			  <input class="custom-control-input" type="radio" id="inactive" name="student[status]" value="Inactive">
+			  <label class="custom-control-label" for="inactive">Inactive</label>
+			</div>
+
+			<input class="btn btn-primary d-block mt-2" type="submit" value="Save">
+		</form>
+	</div>
+	</div>
+<%- include('../partials/footer') -%>
